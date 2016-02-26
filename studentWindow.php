@@ -1,7 +1,14 @@
-
-
-
-
+<?php 
+			session_start();
+			$username = $_SESSION['username'];
+			
+			$_SESSION['username'] = $username;
+			
+			if(!$_SESSION['username']){
+				$msg = "Please log in as a student first!";
+				header("Location: login.php?msg=$msg");
+			} else
+		?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -26,24 +33,25 @@
     	<div class="col-md-2"></div>
     	<div class="col-md-8" ><div class="well">
     	<form method="post" action="pendingRoomsHandler.php" class="form-inline" align="center">
-    	
     	<?php 
-			session_start();
-			$username = $_SESSION['username'];
-			echo "Requested by: ".$username;
-			$_SESSION['username'] = $username;
-			
-		?>
+    	echo "Requested by: ".$username;
+    	?>
+    	
     	<p></p>
-    	<p>Email Address:    <input type="email" name="emailAddress" id="emailAddress" class="form-control" ></p>
-    	<p>List of Activities available: </p><p>
-    		<input type="radio" name="activity" value="Meeting" id="activity">Meetings<br/>
-    		<input type="radio" name="activity" value="Class" id="activity">Class<br/>
-    		<input type="radio" name="activity" value="Event" id="activity">Events<br/>
-    	</p>
+    	<p>Email Address:    <input type="email" name="emailAddress" id="emailAddress" class="form-control" required="required"></p>
+    	<p>Activity Type: 
+    	<select id="activity_type" name="activity_type" required="required">
+    		<option selected disabled hidden style='display: none' value=''></option>
+    		<option style="color:black" value="Meeting">Meeting</option>
+    		<option style="color:black" value="Class">Class</option>
+    		<option style="color:black" value="Event">Event</option>
+    		</select></p> 
+    		
+    		
+    	
     	
     	<p>Available Room Details: </p>
-    		<select id="roomReserve" name="roomReserve" class="form-control">
+    		<select id="roomReserve" name="roomReserve" class="form-control" checked="checked">
     		<?php
 			
             $server="localhost";
@@ -79,7 +87,10 @@
     		<input type="submit" value="Submit" class="btn btn-success"/>
     		<input type="reset" value="Clear" class="btn btn-danger"/>
     		</p>
-    	</form></div>
+    	</form>
+    	<p align ='center'>
+    	<input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/></p>
+    	</div>
     	<div class="col-md-2"></div>
     </div>
     </div>
