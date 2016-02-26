@@ -1,3 +1,14 @@
+<?php 
+	session_start();
+	$username = $_SESSION['username'];
+	$_SESSION['username'] = $username;
+	
+	if(!$_SESSION['username']){
+		$msg = "Please log in as an admin first!";
+		header("Location: login.php?msg=$msg");
+	} else
+?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -59,9 +70,10 @@
    		echo "<td>".$row['date']."</td>";
    		echo "<td>".$row['time']."</td>";
    		echo "</tr>";
-   		echo "</table>";
+   		
    
    	}
+   	echo "</table>";
    } else {
    	echo "0 results";
    }
@@ -70,6 +82,10 @@
    
    $conn->close();
    ?>
+   <br>
+   <p align='center'>
+   <input type ="button" class="btn btn-success" onClick="window.location='adminWindow.php'" value ="Admin Main Menu"/>
+   <input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/></p>
    </div>
     </div>
    
