@@ -1,3 +1,15 @@
+<?php 
+   session_start();
+   $username = $_SESSION['username'];
+   
+   $_SESSION['username'] = $username;
+   
+   if(!$_SESSION['username']){
+   	$msg = "Please log in as an admin first!";
+   	header("Location: login.php?msg=$msg");
+   } else 
+  ?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -9,17 +21,28 @@
 </head>
     <body>
     <div class="container">
-    <div class = "jumbotron">
-    <p class = "text-center">This is the admin page.</p>
-    
-	
-    <?php
-
-	?>
-	</div>
-	<a href="addRoomsAdmin.php" class="btn btn-success btn-block" role="button">Add Available Rooms</a>
-    <a href="viewPendingRooms.php" class="btn btn-success btn-block" role="button">View Pending Rooms</a>
+    	<div class = "jumbotron">
+   			<?php 
+    			echo "<h1 align='center'><div class='text text-success'>Welcome Admin ".$username."</div></h1>";
+    		?>
+    	</div>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<?php 
+						if(isset($_GET['msg1'])){
+  	
+  						$msg1 = $_GET['msg1'];
+   							if($msg1 !=''){
+   								echo "<div class='alert alert-warning'>".$msg1."</div>";
+   							}	
+   						}
+    ?>
+					<a href="addRoomsAdmin.php" class="btn btn-success btn-block" role="button">Add Available Rooms</a>
+					<a href="viewPendingRooms.php" class="btn btn-success btn-block" role="button">View Pending Rooms</a><br>
+					<p align ='center'><input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/></p></div>
+				<div class="col-md-4"></div>
+			</div>
 	</div> 
-    </body>
-
+	</body>
 </html>
