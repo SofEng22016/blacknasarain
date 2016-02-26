@@ -1,3 +1,13 @@
+<?php 
+	session_start();
+	$username = $_SESSION['username'];
+	$_SESSION['username'] = $username;
+	
+	if(!$_SESSION['username']){
+		$msg = "Please log in as an admin first!";
+		header("Location: login.php?msg=$msg");
+	} else
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -34,7 +44,12 @@
 </head>
 <body>
  <div class = "container">
- <h1> Add Available Rooms</h1>
+ 		<div class = "jumbotron">
+   			<?php 
+    			echo "<h1 align='center'><div class='text text-success'>Welcome Admin ".$username."</div></h1>";
+    		?>
+    	</div>
+<h1> Add Available Rooms</h1>
 <form action = "redirectTab.php" method="post">
 <b>Room Name : </b>
 <select id = "room_name" name = "room_name" required="required">
@@ -73,17 +88,8 @@
   </select></b>
 
  <input type = "submit">
-
 </form>
-
-
-
-
-
-
-
-
-
+<input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/>
 </div>
 </body>
 
