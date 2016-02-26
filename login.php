@@ -17,7 +17,17 @@
  
   <div class="row">
  	<div class="col-md-4"></div>
-  	<div class="col-md-4"></div>
+  	<div class="col-md-4">
+  	<?php 
+	if(isset($_GET['msg'])){
+  	
+  	$msg = $_GET['msg'];
+   		if($msg !=''){
+   			echo "<div class='alert alert-warning'>".$msg."</div>";
+   		}	
+   	}
+    ?>
+  	</div>
   	<div class="col-md-4"></div>
  </div>
  
