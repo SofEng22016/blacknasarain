@@ -18,19 +18,41 @@
 
 <title>Admin Window</title>
 
-<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-
-    <body>
-   <div class="container">
-  <div class="jumbotron">
-    <h1 class = "text-center">Pending Rooms</h1>
-    </div>
-  <div class="row">
-   <div class = "col-md-12">
+<body>
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="adminWindow.php">EZ Room Reservation</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="adminWindow.php">Admin Homepage</a></li>
+<li><a href="addRoomsAdmin.php">Add Available Rooms</a></li>
+<li class="active"><a href="viewPendingRooms.php">View Pending Rooms</a></li> 
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+</ul>
+</div>
+</nav>
+<div class="container">
+<div class="jumbotron">
+<h1 class = "text-center">Pending Rooms</h1>
+</div>
+<div class="row">
+<div class = "col-md-12">
    <?php 
+   if(isset($_GET['msg'])){
+   	 
+   	$msg = $_GET['msg'];
+   	if($msg !=''){
+   		echo "<div class='alert alert-warning'><center>".$msg."</center></div>";
+   	}
+   }
+   
    $user = "root";
    $pass = "";
    $dbname = "databasePHP";
@@ -47,9 +69,10 @@
    $result = $conn->query($sql);
    
    if ($result->num_rows > 0) {
-   	
+   	echo "<form action='decisionHandler.php' method='post'>";
 	echo "<table style='width:100%' class = 'table-striped table-bordered table-responsive'>";
 	echo "<tr>";
+	echo "<td></td>";
 	echo "<td><b>Room Name</b></td>";
 	echo "<td><b>Email Address</b></td>";
 	echo "<td><b>Activity</b></td>";
@@ -59,37 +82,36 @@
 	echo "</tr>";
    	// output data of each row
    	while($row = $result->fetch_assoc()) {
-   
-   		
-   		
+   		$id = $row['id'];
    		echo "<tr>";
+   		echo "<td>";
+   		echo "<input type='radio' name='decision' value='$id' id='decision'/>";
+   		echo "</td>";
    		echo "<td>".$row['room_name']."</td>";
    		echo "<td>".$row['email_address']."</td>";
    		echo "<td>".$row['activity']."</td>";
    		echo "<td>".$row['requester']."</td>";
    		echo "<td>".$row['date']."</td>";
-   		echo "<td>".$row['time']."</td>";
+   		echo "<td>".$row['time']."</td>";	
    		echo "</tr>";
    		
    
    	}
-   	echo "</table>";
+   	echo "</table><input type='submit' name='choice' value='Approve'/> <input type='submit' name='choice' value='Deny'/></form>";
    } else {
-   	echo "0 results";
+   	echo "<div class='alert alert-info'>"."<center>There are currently no pending room reservations to approve/deny.</center>"."</div>"; //proper message here pls.
    }
    
    
    
    $conn->close();
    ?>
-   <br>
-   <p align='center'>
-   <input type ="button" class="btn btn-success" onClick="window.location='adminWindow.php'" value ="Admin Main Menu"/>
-   <input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/></p>
-   </div>
-    </div>
-   
-  </div>
+<br>
+<p align='center'>
+
+</div>
+</div>
+</div>
 </body>
    	
 </html>
