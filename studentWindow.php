@@ -18,7 +18,7 @@
 
 <title>Student Window</title>
 
-<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
@@ -39,19 +39,14 @@
     	
     	<p></p>
     	<p>Email Address:    <input type="email" name="emailAddress" id="emailAddress" class="form-control" required="required"></p>
-    	<p>Activity Type: 
-    	<select id="activity_type" name="activity_type" required="required">
-    		<option selected disabled hidden style='display: none' value=''></option>
-    		<option style="color:black" value="Meeting">Meeting</option>
-    		<option style="color:black" value="Class">Class</option>
-    		<option style="color:black" value="Event">Event</option>
-    		</select></p> 
-    		
-    		
-    	
+    	<p>List of Activities available: </p><p>
+    		<input type="radio" name="activity" value="Meeting" id="activity">Meetings<br/>
+    		<input type="radio" name="activity" value="Class" id="activity">Class<br/>
+    		<input type="radio" name="activity" value="Event" id="activity">Events<br/>
+    	</p>
     	
     	<p>Available Room Details: </p>
-    		<select id="roomReserve" name="roomReserve" class="form-control" checked="checked">
+    		<select id="roomReserve" name="roomReserve" class="form-control" required="required">
     		<?php
 			
             $server="localhost";

@@ -18,11 +18,26 @@
 
 <title>Admin Window</title>
 
-<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="#">EZ Room Reservation</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="adminWindow.php">Admin Homepage</a></li>
+<li class="active"><a href="addRoomsAdmin.php">Add Available Rooms</a></li>
+<li><a href="viewPendingRooms.php">View Pending Rooms</a></li> 
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+</ul>
+</div>
+</nav>
 <div class="container">
 <div class="jumbotron">
 			<?php 
