@@ -13,7 +13,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <title>Add Available Rooms</title>
-<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style>
@@ -34,7 +34,6 @@
 		}
 	input
 	{
-		color:#ffffff;
 		padding:8px;
     	margin:5px 0;
     	background: none;
@@ -43,15 +42,35 @@
 </style>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="adminWindow.php">EZ Room Reservation</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="adminWindow.php">Admin Homepage</a></li>
+<li class="active"><a href="addRoomsAdmin.php">Add Available Rooms</a></li>
+<li><a href="viewPendingRooms.php">View Pending Rooms</a></li> 
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+</ul>
+</div>
+</nav>
  <div class = "container">
  		<div class = "jumbotron">
    			<?php 
     			echo "<h1 align='center'><div class='text text-success'>Welcome Admin ".$username."</div></h1>";
     		?>
     	</div>
-<h1> Add Available Rooms</h1>
+
+<div class='row'>
+<div class='col-md-2'></div>
+<div class='col-md-8'><div class='well'>
+<h1 class='text text-info'>Add Available Rooms</h1>
+<hr></hr>
 <form action = "redirectTab.php" method="post">
-<b>Room Name : </b>
+<b>Room : </b>
 <select id = "room_name" name = "room_name" required="required">
   <option value="CL1">Computer Lab 1</option>
   <option value="CL2">Computer Lab 2</option>
@@ -79,17 +98,20 @@
   <option value="Music Room">Music Room</option>
 </select>
 <hr></hr>
-<b>Date : <input id="date" name="date" type = "date" required="required"></b>
+<b>Date : <input id="date" name="date" type = "date" required="required"></b><hr></hr>
 <b>Time : <select id = "time" name = "time" required="required">
   <option value="8:00AM-11:00AM">8:00AM-11:00AM</option>
   <option value="11:30AM-2:30PM">11:30AM-2:30PM</option>
   <option value="2:45PM-5:45PM">2:45PM-5:45PM</option>
   <option value="6:00PM-9:00PM">6:00PM-9:00PM</option>
   </select></b>
-
- <input type = "submit">
+<hr></hr>
+<center><input type = "submit" value='Submit'></center>
 </form>
-<input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/>
+</div>
+</div>
+<div class='col-md-2'></div>
+</div>
 </div>
 </body>
 
