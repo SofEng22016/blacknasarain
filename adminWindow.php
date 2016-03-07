@@ -15,11 +15,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <title>Admin Window</title>
-<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-    <body>
+<body>
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="adminWindow.php">EZ Room Reservation</a>
+</div>
+<ul class="nav navbar-nav">
+<li class="active"><a href="adminWindow.php">Admin Homepage</a></li>
+<li><a href="addRoomsAdmin.php">Add Available Rooms</a></li>
+<li><a href="viewPendingRooms.php">View Pending Rooms</a></li> 
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+</ul>
+</div>
+</nav>
     <div class="container">
     	<div class = "jumbotron">
    			<?php 
@@ -40,7 +55,7 @@
     ?>
 					<a href="addRoomsAdmin.php" class="btn btn-success btn-block" role="button">Add Available Rooms</a>
 					<a href="viewPendingRooms.php" class="btn btn-success btn-block" role="button">View Pending Rooms</a><br>
-					<p align ='center'><input type ="button" class="btn btn-success" onClick="window.location='logout.php'" value ="Logout"/></p></div>
+					</div>
 				<div class="col-md-4"></div>
 			</div>
 	</div> 
