@@ -48,8 +48,8 @@
 //     		echo "<p>".$roomChecker."</p>";
 //     		echo "<hr>";
 
-    		$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been approved!";
-     		mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+   			//$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been approved!";
+    		//mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
     		
     		$insertToApproved = "INSERT INTO approved_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester')";
     	
@@ -73,8 +73,8 @@
 //     						echo "<p>".$email1."</p>";
 //     						echo "<p>".$roomChecker1."</p>";
 //     						echo "<hr>";
-    						$mailMessage ="Hello, ".$requester1.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
-    						mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+   				//		$mailMessage ="Hello, ".$requester1.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
+   					//	mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
     						
     						$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email1', '$activity1', '$requester1')";
     						
@@ -89,10 +89,13 @@
     					
     					if($conn->query($deleteRestPending) === TRUE){
     						$msg = "Email has been sent!";
-    						header("Location: viewPendingRooms.php?msg=$msg");
+    						header("Location: adminWindow.php?msg=$msg");
     					} else {
     						echo "Error deleting the rest.";
     					}
+    				} else {
+    					$msg = "Email has been sent!";
+    					header("Location: adminWindow.php?msg=$msg");
     				}
      			} else {
     				echo "Error on deletion.";
@@ -103,7 +106,7 @@
     		}
      	} else {
      		$msg = "Error on room approval!";
-     		header("Location: viewPendingRooms.php?msg=$msg");
+     		header("Location: adminWindow.php?msg=$msg");
      	}
     			
 	} else if ($choice == "Deny"){
@@ -120,8 +123,8 @@
 				$roomTime = $row['time'];
 				$email = $row['email_address'];
 				
-				$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
-				mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+				//$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
+				//mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
 			}
 			
 			$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester')";
@@ -130,7 +133,7 @@
 				
 				if($conn->query($deletePending) === TRUE){
 					$msg = "Email has been sent!";
-					header("Location: viewPendingRooms.php?msg=$msg");
+					header("Location: adminWindow.php?msg=$msg");
 				} else {
 					echo "Error on deletion.";
 				}

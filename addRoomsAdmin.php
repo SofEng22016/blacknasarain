@@ -1,21 +1,21 @@
-<?php 
-	session_start();
-	$username = $_SESSION['username'];
-	$_SESSION['username'] = $username;
+ <?php 
+// 	session_start();
+// 	$username = $_SESSION['username'];
+// 	$_SESSION['username'] = $username;
 	
-	if(!$_SESSION['username']){
-		$msg = "Please log in as an admin first!";
-		header("Location: login.php?msg=$msg");
-	} else
-?>
+// 	if(!$_SESSION['username']){
+// 		$msg = "Please log in as an admin first!";
+// 		header("Location: login.php?msg=$msg");
+// 	} else
+ ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=Cp1252">
 <title>Add Available Rooms</title>
-<link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <style>
 	form select
 	{		 
@@ -42,31 +42,32 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-<div class="container-fluid">
-<div class="navbar-header">
-<a class="navbar-brand" href="adminWindow.php">EZ Room Reservation</a>
-</div>
-<ul class="nav navbar-nav">
-<li><a href="adminWindow.php">Admin Homepage</a></li>
-<li class="active"><a href="addRoomsAdmin.php">Add Available Rooms</a></li>
-<li><a href="viewPendingRooms.php">View Pending Rooms</a></li> 
-</ul>
-<ul class="nav navbar-nav navbar-right">
-<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-</ul>
-</div>
-</nav>
- <div class = "container">
- 		<div class = "jumbotron">
+<!-- <nav class="navbar navbar-inverse"> -->
+<!-- <div class="container-fluid"> -->
+<!-- <div class="navbar-header"> -->
+<!-- <a class="navbar-brand" href="adminWindow.php">EZ Room Reservation</a> -->
+<!-- </div> -->
+<!-- <ul class="nav navbar-nav"> -->
+<!-- <li><a href="adminWindow.php">Admin Homepage</a></li> -->
+<!-- <li class="active"><a href="addRoomsAdmin.php">Add Available Rooms</a></li> -->
+<!-- <li><a href="viewPendingRooms.php">View Pending Rooms</a></li>  -->
+<!-- </ul> -->
+<!-- <ul class="nav navbar-nav navbar-right"> -->
+<!-- <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> -->
+<!-- </ul> -->
+<!-- </div> -->
+<!-- </nav> -->
+<!--  <div class = "container"> -->
+<!--  		<div class = "jumbotron"> -->
    			<?php 
-    			echo "<h1 align='center'><div class='text text-success'>Welcome Admin ".$username."</div></h1>";
-    		?>
-    	</div>
+//     			echo "<h1 align='center'><div class='text text-success'>Welcome Admin ".$username."</div></h1>";
+//     		?>
+<!--     	</div> -->
 
-<div class='row'>
-<div class='col-md-2'></div>
-<div class='col-md-8'><div class='well'>
+<!-- <div class='row'> -->
+<!-- <div class='col-md-4'></div> -->
+<!-- <div class='col-md-4'> -->
+<!-- <div class='well'> -->
 <h1 class='text text-info'>Add Available Rooms</h1>
 <hr></hr>
 <form action = "redirectTab.php" method="post">
@@ -108,11 +109,11 @@
 <hr></hr>
 <center><input type = "submit" value='Submit'></center>
 </form>
-</div>
-</div>
-<div class='col-md-2'></div>
-</div>
-</div>
+<!-- </div> -->
+<!-- </div> -->
+<!-- <div class='col-md-4'></div> -->
+<!-- </div> -->
+<!-- </div> -->
 </body>
 
 
