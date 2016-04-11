@@ -2,7 +2,7 @@
 session_start();
 $email = $_POST['emailAddress'];
 $equipment = $_POST['equipmentReserve'];
-$username = $_SESSION['username'];
+$username = $_SESSION['userStudent'];
 $quantity = $_POST['borrowAmount'];
 
 $user = "root";

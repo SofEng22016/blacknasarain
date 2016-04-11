@@ -1,13 +1,6 @@
 <?php
 session_start();
-$username = $_SESSION['username'];
-$_SESSION['username'] = $username;
-
-if(!$_SESSION['username']){
-	$msg = "Please log in as an admin first!";
-	header("Location: login.php?msg=$msg");
-} else
-
+$username = $_SESSION['userAdmin'];
 ?>
 <?php
 
@@ -26,6 +19,8 @@ if ($conn->connect_error) {
  die("Connection failed: " . $conn->connect_error);
 }
 
+if(isset($equipment_name) && isset($quantity) && isset($username)){
+
 $equipmentChecker = "SELECT * FROM equipment_available_db WHERE equipment_name ='$equipment_name'";
 $result = $conn->query($equipmentChecker);
 
@@ -41,7 +36,8 @@ if ($result->num_rows > 0) {
 		$msg1 = "Equipment is already available for lending! Updating Equipment Stock instead.";
 		header("Location: adminWindow.php?msg=$msg1");
 	} else {
-		echo "Error on updating";
+		$msg1 = "An error has been encountered while updating the current equipment stock! Check database connection!";
+		header("Location: adminWindow.php?msg=$msg1");
 	}
 
 	
@@ -52,8 +48,16 @@ if ($result->num_rows > 0) {
 			$msg = "New Equipment Added!";
 			header("Location: adminWindow.php?msg=$msg");
 		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+			$msg = "An error has been encountered while adding the new equipment. Check database connection!";
+			header("Location: adminWindow.php?msg=$msg");
 		}
+}
+} else if(!isset($username)){
+	$msg = "Please log in as an admin first!";
+	header("Location: index.php?msg=$msg");
+} else if(isset($username)){
+	$msg="Select a proper equipment with the right quantity!";
+	header("Location: adminWindow.php?msg=$msg");
 }
 
 

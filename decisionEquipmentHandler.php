@@ -1,4 +1,8 @@
 <?php
+session_start();
+$username = $_SESSION['userAdmin'];
+?>
+<?php
 	$id = $_POST['decision'];
     $choice = $_POST['choice'];
     $user = "root";
@@ -13,7 +17,8 @@
     	die("Connection failed: " . $conn->connect_error);
     }
     
-   
+    if(isset($id) && isset($choice)){
+    
     if($choice == "Approve"){
 
     	$sql = "SELECT * FROM equipment_pending_db WHERE id='$id'";
@@ -46,16 +51,16 @@
     					
     					if($conn->query($deletePending) === TRUE){
     						$msg = "Sorry, We do not have enough equipments to fulfill your request!";
-    						header("Location: adminWindow.php?msg=$msg");
+    						header("Location: viewPendingEquipments.php?msg=$msg");
     						
     					} else {
     						
     						$msg="Error on deleting denied equipment request. [Approve choice]";
-    						header("Location: adminWindow.php?msg=$msg");
+    						header("Location: viewPendingEquipments.php?msg=$msg");
     					}
     				} else {
     					$msg = "Error on connection to denied table!";
-    					header("Location: adminWindow.php?msg=$msg");
+    					header("Location: viewPendingEquipments.php?msg=$msg");
     				}
     				
     			} else {
@@ -68,25 +73,25 @@
 	    				
 	    				if($conn->query($deletePending) === TRUE && $conn->query($updateStock) === TRUE){
 	    					$msg = "Stock has been updated!";
-	    					header("Location: adminWindow.php?msg=$msg");
+	    					header("Location: viewPendingEquipments.php?msg=$msg");
 	    				} else {
 	    					$msg = "Error on deleting the pending request and updating stock!";
-	    					header("Location: adminWindow.php?msg=$msg");
+	    					header("Location: viewPendingEquipments.php?msg=$msg");
 	    				}
 	    			} else {
 						$msg = "Error on connection to approved table!";
-						header("Location: adminWindow.php?msg=$msg");
+						header("Location: viewPendingEquipments.php?msg=$msg");
 					}
     			}
     		} else {
     			$msg = "Equipment is not even available!";
-    			header("Location: adminWindow.php?msg=$msg");
+    			header("Location: viewPendingEquipments.php?msg=$msg");
     		}
     		
     		
     	} else {
     		$msg = "What are you trying to approve?";
-    		header("Location: adminWindow.php?msg=$msg");
+    		header("Location: viewPendingEquipments.php?msg=$msg");
     	}
     	
 	} else if ($choice == "Deny"){
@@ -109,20 +114,27 @@
 				
 				if($conn->query($deletePending) === TRUE){
 					$msg = "Equipment Request has been declined!";
-					header("Location: adminWindow.php?msg=$msg");
+					header("Location: viewPendingEquipments.php?msg=$msg");
 				} else {
 					$msg = "Error on deleting the pending request!";
-					header("Location: adminWindow.php?msg=$msg");
+					header("Location: viewPendingEquipments.php?msg=$msg");
 				}
 			} else {
 				$msg = "Error on connection to denied table!";
-				header("Location: adminWindow.php?msg=$msg");
+				header("Location: viewPendingEquipments.php?msg=$msg");
 			}
 		} else {
 			$msg = "What are you trying to deny?";
-			header("Location: adminWindow.php?msg=$msg");
+			header("Location: viewPendingEquipments.php?msg=$msg");
 		}
 		
+	}
+	} else if (!isset($username)){
+		$msg = "Please log in as an admin first!";
+		header("Location: index.php?msg=$msg");
+	} else if(isset($username)){
+		$msg="Please select an equipment and a decision first!";
+		header("Location: viewPendingEquipments.php?msg=$msg");
 	}
 	
 	$conn->close();
