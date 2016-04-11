@@ -22,16 +22,32 @@
 			$requester = $row['requester'];
 		}
 		
-			$updateReturnStatus = "UPDATE equipment_approved_db SET return_status ='For Verification' WHERE equipment_name='$equipment' AND requester='$requester' AND id='$id'";
+		$stockChecker = "SELECT quantity FROM equipment_available_db WHERE equipment_name='$equipment'";
+		$result1 = $conn->query($stockChecker);
+		
+		if($result1->num_rows > 0){
+			while($row1 = $result1->fetch_assoc()){
+				$currentStock = $row1['quantity'];
+			}
 			
-			if($conn->query($updateReturnStatus) === TRUE){
+			$newStock = $currentStock + $quantityToBeReturned;
+			$updateStock = "UPDATE equipment_available_db SET quantity='$newStock' WHERE equipment_name='$equipment'";
+			$updateReturnStatus = "UPDATE equipment_approved_db SET return_status ='Returned' WHERE equipment_name='$equipment' AND requester='$requester'";
+			
+			if($conn->query($updateStock) === TRUE && $conn->query($updateReturnStatus) === TRUE){
 				$msg = "Equipment has been returned!";
 				header("Location: studentWindow.php?msg1=$msg");
 			} else {
  				$msg = "Error on updating stock and return status!";
  				header("Location: studentWindow.php?msg1=$msg");
 			}
-					
+			
+		} else {
+			$msg ="Equipment is not even available!";
+			header("Location: studentWindow.php?msg1=$msg");
+		}	
+		
+		
 	} else {
 		$msg="What are you trying to return?";
 		header("Location: studentWindow.php?msg1=$msg");

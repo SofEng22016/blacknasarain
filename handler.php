@@ -27,19 +27,24 @@ if ($result->num_rows > 0) {
 		if($row["username"] == $username){
 		if($row["ADMINorSTUDENT"]){
        session_start();
-       $_SESSION['userStudent'] = $username;
+       $_SESSION['username'] = $username;
        header('Location: studentWindow.php');
+	  //echo "<p>".$row['ADMINorSTUDENT']."</p>";
+	  //echo "<p>".$row['password']."</p>";
+	  //echo "<p>".$row['username']."</p>";
+	  //echo "<p>".$row['id']."</p>";
       } else {
       session_start();
-      $_SESSION['userAdmin'] = $username;
+      $_SESSION['username'] = $username;
        header('Location: adminWindow.php');
+       //echo "<p>".$row['ADMINorSTUDENT']."</p>";
        
       }
 	}
 	} 
 } else {
       $msg = "No such user exists! Your username or password may be incorrect!";
-      header("Location: index.php?msg=$msg");
+      header("Location: login.php?msg=$msg");
    		
 }
 	$conn->close();
