@@ -1,3 +1,12 @@
+<?php 
+	$username = $_SESSION['userStudent'];			
+	$_SESSION['userStudent'] = $username;
+			
+	if(!$_SESSION['userStudent']){
+		$msg = "Please log in as a student first!";
+		header("Location: index.php?msg=$msg");
+	}
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>

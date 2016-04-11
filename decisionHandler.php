@@ -1,3 +1,7 @@
+<?php
+session_start();
+$username = $_SESSION['userAdmin'];
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -9,6 +13,7 @@
     <?php
     $id = $_POST['decision'];
     $choice = $_POST['choice'];
+    $reason = $_POST['reason'];
     $user = "root";
     $pass = "";
     $dbname = "databasePHP";
@@ -21,44 +26,37 @@
     	die("Connection failed: " . $conn->connect_error);
     }
     
-   
+    if(isset($id) && isset($choice)){
+    
     if($choice == "Approve"){
     	
-    	$sql = "SELECT * FROM pending_rooms_db INNER JOIN available_rooms_db ON pending_rooms_db.id='$id' AND pending_rooms_db.room_details=available_rooms_db.id";
+    	$sql = "SELECT * FROM pending_rooms_db WHERE id='$id'";
     	$result = $conn->query($sql);
     	
     	if($result-> num_rows > 0){
     		while($row = $result->fetch_assoc()){
     			$requester = $row['requester'];
     			$activity = $row['activity'];
-    			$roomName = $row['room_name'];
+    			$roomName = $row['room'];
     			$roomDate = $row['date'];
     			$roomTime = $row['time'];
 				$email = $row['email_address'];
-				$roomChecker = $row['room_details'];
-
+				$reasonReservation = $row['reason'];
+			
     		}
     		
-//     		echo "<p>".$requester."</p>";
-//     		echo "<p>".$activity."</p>";
-//     		echo "<p>".$roomName."</p>";
-//     		echo "<p>".$roomDate."</p>";
-//     		echo "<p>".$roomTime."</p>";
-//     		echo "<p>".$email."</p>";
-//     		echo "<p>".$roomChecker."</p>";
-//     		echo "<hr>";
-
-   			//$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been approved!";
-    		//mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+    		$reasonReservation = mysql_real_escape_string($reasonReservation);
+   			$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been approved!";
+    		mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
     		
-    		$insertToApproved = "INSERT INTO approved_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester')";
+    		$insertToApproved = "INSERT INTO approved_rooms_db (room_name, date, time, email_address, activity, requester, admin, reason) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester', '$username', '$reasonReservation')";
     	
     		if ($conn->query($insertToApproved) === TRUE) {
     			$deletePending = "DELETE FROM pending_rooms_db WHERE id='$id'";
-    			$deleteAvailable = "DELETE FROM available_rooms_db WHERE id ='$roomChecker'";
     			
-    			if($conn->query($deletePending) === TRUE && $conn->query($deleteAvailable) === TRUE){
-    				$denyOthers = "SELECT * FROM pending_rooms_db WHERE room_details='$roomChecker'";
+    			
+    			if($conn->query($deletePending) === TRUE){
+    				$denyOthers = "SELECT * FROM pending_rooms_db WHERE room='$roomName' AND date='$roomDate' AND time='$roomTime'";
     				$result1 = $conn->query($denyOthers);
     				
     				if($result1->num_rows > 0){
@@ -66,89 +64,127 @@
     						$requester1 = $row1['requester'];
     						$activity1 = $row1['activity'];
     						$email1 = $row1['email_address'];
-    						$roomChecker1 = $row1['room_details'];
+    						$reasonReservation1 = $row1['reason'];
     						
-//     						echo "<p>".$requester1."</p>";
-//     						echo "<p>".$activity1."</p>";
-//     						echo "<p>".$email1."</p>";
-//     						echo "<p>".$roomChecker1."</p>";
-//     						echo "<hr>";
-   				//		$mailMessage ="Hello, ".$requester1.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
-   					//	mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+   						$mailMessage ="Hello, ".$requester1.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied because a different reservation for this room was accepted.";
+   						$mailMessage = wordwrap($mailMessage, 70,"\n");
+   						mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+    						$reasonReservation1 = mysql_real_escape_string($reasonReservation1);
     						
-    						$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email1', '$activity1', '$requester1')";
+    						$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester, reason, admin, reason_denial) VALUES ('$roomName', '$roomDate', '$roomTime', '$email1', '$activity1', '$requester1', '$reasonReservation1', '$username', 'A similar room has been accepted')";
     						
     						if($conn->query($insertToDenied) === TRUE){
     							
     						} else {
-    							echo "Error moving to denied rooms table";
+    							$msg = "An error has been encountered with moving data to a denied rooms table. Check database connection!";
+    							header("Location: viewPendingRooms.php?msg=$msg");
     						}
     					}
     					
-    					$deleteRestPending ="DELETE FROM pending_rooms_db WHERE room_details ='$roomChecker'";
+    					$deleteRestPending ="DELETE FROM pending_rooms_db WHERE room='$roomName' AND date='$roomDate' AND time='$roomTime'";
     					
     					if($conn->query($deleteRestPending) === TRUE){
     						$msg = "Email has been sent!";
-    						header("Location: adminWindow.php?msg=$msg");
+    						header("Location: viewPendingRooms.php?msg=$msg");
     					} else {
-    						echo "Error deleting the rest.";
+    						$msg = "An error has been encountered with deleting identitical room reservations. Check database connection!";
+    						header("Location: viewPendingRooms.php?msg=$msg");
     					}
     				} else {
     					$msg = "Email has been sent!";
-    					header("Location: adminWindow.php?msg=$msg");
+    					header("Location: viewPendingRooms.php?msg=$msg");
     				}
      			} else {
-    				echo "Error on deletion.";
+    				$msg = "An error has been encountered on deleting the approved room from the pending rooms table. Check database connection!";
+    				header("Location: viewPendingRooms.php?msg=$msg");
      			}
 	
      		} else {
-     			echo "Error on insert to approved rooms table";
+     			$msg = "An error has been encountered on inserting the approved room to the approved rooms table. Check database connection!";
+     			header("Location: viewPendingRooms.php?msg=$msg");
     		}
      	} else {
-     		$msg = "Error on room approval!";
-     		header("Location: adminWindow.php?msg=$msg");
+     		$msg = "An error has been encountered, the room you're trying to approve does not exist!";
+     		header("Location: viewPendingRooms.php?msg=$msg");
      	}
     			
 	} else if ($choice == "Deny"){
-		
-		$sql = "SELECT * FROM pending_rooms_db INNER JOIN available_rooms_db ON pending_rooms_db.id='$id' AND pending_rooms_db.room_details=available_rooms_db.id";
+
+		$sql = "SELECT * FROM pending_rooms_db WHERE id='$id'";
 		$result = $conn->query($sql);
 		
 		if($result->num_rows > 0){
 			while($row = $result->fetch_assoc()){
 				$requester = $row['requester'];
 				$activity = $row['activity'];
-				$roomName = $row['room_name'];
+				$roomName = $row['room'];
 				$roomDate = $row['date'];
 				$roomTime = $row['time'];
 				$email = $row['email_address'];
-				
-				//$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied!";
-				//mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+				$reasonReservation = $row['reason'];
+								
 			}
 			
-			$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester')";
-			if($conn->query($insertToDenied) === TRUE){
-				$deletePending = "DELETE FROM pending_rooms_db WHERE id='$id'";
+			if($reason != null){
+				$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied because of: ".$reason;
+				$mailMessage = wordwrap($mailMessage, 70,"\n");
+				mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+				$reasonReservation = mysql_real_escape_string($reasonReservation);
+				$reason = mysql_real_escape_string($reason);
+					
+				$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester, reason, admin, reason_denial) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester', '$reasonReservation', '$username', '$reason')";
+				if($conn->query($insertToDenied) === TRUE){
+					$deletePending = "DELETE FROM pending_rooms_db WHERE id='$id'";
 				
-				if($conn->query($deletePending) === TRUE){
-					$msg = "Email has been sent!";
-					header("Location: adminWindow.php?msg=$msg");
+					if($conn->query($deletePending) === TRUE){
+						$msg = "Email has been sent!";
+						header("Location: viewPendingRooms.php?msg=$msg");
+					} else {
+						$msg = "An error has been encountered on deleting the approved room from the pending rooms table. Check database connection!";
+						header("Location: viewPendingRooms.php?msg=$msg");
+					}
 				} else {
-					echo "Error on deletion.";
+					$msg = "An error has been encountered with moving data to a denied rooms table. Check database connection!";
+					header("Location: viewPendingRooms.php?msg=$msg");
 				}
 			} else {
-				echo "Error on insert to denied rooms table";
+				$mailMessage ="Hello, ".$requester.". Your reservation for the room: ".$roomName." on ".$roomDate." at ".$roomTime." has been denied! There was no reason specified. Contact management for further details.";
+				$mailMessage = wordwrap($mailMessage, 70,"\n");
+				mail($email, "Room Reservation Status", $mailMessage,"From: iACADEMY <janumali701@gmail.com>");
+				$insertToDenied = "INSERT INTO denied_rooms_db (room_name, date, time, email_address, activity, requester, reason, admin, reason_denial) VALUES ('$roomName', '$roomDate', '$roomTime', '$email', '$activity', '$requester', '$reasonReservation', '$username', 'No reason was specified.')";
+				if($conn->query($insertToDenied) === TRUE){
+					$deletePending = "DELETE FROM pending_rooms_db WHERE id='$id'";
+				
+					if($conn->query($deletePending) === TRUE){
+						$msg = "Email has been sent!";
+						header("Location: viewPendingRooms.php?msg=$msg");
+					} else {
+						$msg = "An error has been encountered on deleting the approved room from the pending rooms table. Check database connection!";
+						header("Location: viewPendingRooms.php?msg=$msg");
+					}
+				} else {
+					$msg = "An error has been encountered with moving data to a denied rooms table. Check database connection!";
+					header("Location: viewPendingRooms.php?msg=$msg");
+				}
 			}
+			
+			
 		} else {
-			$msg = "Error on room denial!";
+			$msg = "An error has been encountered, the room you're trying to deny does not exist!";
 			header("Location: viewPendingRooms.php?msg=$msg");
 		}
 		
 	}
+    } else if (!isset($username)){
+		$msg = "Please log in as an admin first!";
+		header("Location: index.php?msg=$msg");
+	} else if(isset($username)){
+		$msg="Please select a room and decision first!";
+		header("Location: viewPendingRooms.php?msg=$msg");
+	}
 	
 	$conn->close();
 	?>
-    </body>
 
+    </body>
 </html>

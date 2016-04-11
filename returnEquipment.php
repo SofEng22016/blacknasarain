@@ -1,3 +1,12 @@
+<?php 
+	$username = $_SESSION['userStudent'];			
+	$_SESSION['userStudent'] = $username;
+			
+	if(!$_SESSION['userStudent']){
+		$msg = "Please log in as a student first!";
+		header("Location: index.php?msg=$msg");
+	}
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
@@ -25,7 +34,7 @@
    
    if ($result->num_rows > 0) {
    	echo "<br><form action='returnEquipmentHandler.php' method='post' align='center'>";
-	echo "<table style='width:100%' class = 'table-striped table-bordered table-responsive'>";
+	echo "<table style='width:100%' class = 'table table-striped table-bordered table-responsive'>";
 	echo "<tr>";
 	echo "<td></td>";
 	echo "<td><b>Equipment</b></td>";
@@ -53,10 +62,6 @@
    
    $conn->close();
    ?>
-
-</div>
-</div>
-</div>
 </body>
    	
 </html>
