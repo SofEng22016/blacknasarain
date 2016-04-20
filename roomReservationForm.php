@@ -19,13 +19,13 @@ resize: none;
 </style>
 </head>
     <body>
-<form method="post" action="pendingRoomsHandler.php" class="form-inline" align="center">
+<form method="post" action="pendingRoomsHandler.php" class="form-inline" align="left>
     	<br>
     	<?php 
     	echo "Requested by: ".$username;
     	?>
     	<p></p>
-    	<b>Email Address :   	 <input type="email" name="emailAddress" id="emailAddress" class="form-control" required="required"></b>
+    	<b align = "left">Email Address :   	 <input type="email" name="emailAddress" id="emailAddress" class="form-control" required="required"></b>
     	<hr></hr>
     	<b>List of Activities available : </p><p>
     		<input type="radio" name="activity" value="Meeting" id="activity" checked="checked">Meetings<br/>

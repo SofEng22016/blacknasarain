@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
     <body>
-<form action='pendingEquipmentHandler.php' method='post' class='form-inline' align='center'>
+<form action='pendingEquipmentHandler.php' method='post' class='form-inline' align='left'>
     	<br>
     	<?php 
     		echo "Requested by: ".$username;

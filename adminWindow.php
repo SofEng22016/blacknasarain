@@ -110,7 +110,7 @@
 			                            <div class="portfolio-item">
 			                            <h2><font color="white">Verify Equipment </font> <span class="label label-info"><?php echo $total7?></span></h2>
 						                    <a class="btn-image" href="viewVerificationEquipment.php">
-						                        <img style="opacity: 0.7;" src="img/portfolio-2.jpg" class="img-responsive"> 
+						                        <img style="opacity: 0.7;" src="img/portfolio-5.jpg" class="img-responsive"> 
 						                    </a>
 			                            </div>
 			                        </div>
@@ -126,7 +126,7 @@
 			                            <div class="portfolio-item">
 			                            <h2><font color="white">Add/Restock Equipment</font></h2>
 						                    <button type="button" class='btn-image' data-toggle='modal' data-target='#addEquipmentModal'>
-						                        <img style="opacity: 0.7;" src="img/portfolio-4.jpg" class="img-responsive"> 
+						                        <img style="opacity: 0.7;" src="img/portfollio-7.jpg" class="img-responsive"> 
 						                    </button>
 
 			                            </div>
@@ -160,7 +160,7 @@
 			include 'addEquipmentAdmin.php';
 		?>
 		<hr></hr>
-			<form action = "equipmentHandler.php" method="post">
+			<form action = "equipmentHandler.php" method="post" align = "left">
 				<b>Equipment : </b>
 				<select id = "equipment_name" name = "equipment_name" required="required">
 					<option value="Speakers">Speakers</option>
